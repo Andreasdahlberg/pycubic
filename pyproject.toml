@@ -1,0 +1,48 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "pycubic"
+version = "0.1.0"
+description = "A Python wrapper for the LK Systems CubicSecure API"
+readme = "README.md"
+license = {file = "LICENSE"}
+authors = [
+    {name = "Andreas Dahlberg", email = "andreas.dahlberg90@gmail.com"}
+]
+maintainers = [
+    {name = "Andreas Dahlberg", email = "andreas.dahlberg90@gmail.com"}
+]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+]
+
+keywords = ["lk-systems", "cubic", "api", "wrapper", "async"]
+requires-python = ">=3.10"
+dependencies = [
+    "aiohttp>=3.8.0",
+    "aiodns>=3.5.0"
+]
+
+[project.urls]
+Homepage = "https://github.com/Andreasdahlberg/pycubic"
+Repository = "https://github.com/Andreasdahlberg/pycubic"
+Documentation = "https://github.com/Andreasdahlberg/pycubic#readme"
+Issues = "https://github.com/Andreasdahlberg/pycubic/issues"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["pycubic*"]
+exclude = ["tests*", "examples*"]
+
+[tool.setuptools.package-data]
+pycubic = ["py.typed"]
