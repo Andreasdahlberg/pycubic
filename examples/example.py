@@ -27,7 +27,7 @@ async def main():
 
         cubic_client = CubicClient(client, serial_number)
         measurement = await cubic_client.get_measurement()
-        print(f'Total volume today: {measurement['volumeTotalDay']} l')
+        print(f'Total volume today: {measurement["volumeTotalDay"]} l')
 
         cubic_access_client = CubicAccessClient(client, serial_number)
         valve_state = await cubic_access_client.get_valve()
