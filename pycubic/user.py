@@ -12,6 +12,18 @@ logger = logging.getLogger(__name__)
 
 
 class UserClient:
+    """Client for interacting with the User API endpoints.
+
+    Args:
+        client: An instance of AuthClient for making authenticated requests.
+
+    Examples:
+        >>> auth_client = AuthClient('https://link2.lk.nu')
+        >>> await client.login('user@example.com', 'password')
+        >>> user_client = UserClient(auth_client)
+        >>> structure = await user_client.get_structure()
+    """
+
     def __init__(self, client: 'AuthClient'):
         self._client = client
         self._user_id = None

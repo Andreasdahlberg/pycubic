@@ -14,15 +14,15 @@ logger = logging.getLogger(__name__)
 class AuthClient:
     """Authenticated HTTP client for the LK Systems CubicSecure API.
 
-    This client handles token authentication with automatic token refresh 
+    This client handles token authentication with automatic token refresh
     capabilities. It manages login, token storage, and ensures all requests
     include valid authentication headers.
 
     Args:
-        base_url: The base URL for the LK Systems CubicSecure API. 
+        base_url: The base URL for the LK Systems CubicSecure API.
 
     Raises:
-        aiohttp.ClientResponseError: If any HTTP request fails. 
+        aiohttp.ClientResponseError: If any HTTP request fails.
 
     Examples:
         >>> client = AuthClient('https://link2.lk.nu')
@@ -50,14 +50,13 @@ class AuthClient:
                 self._access_token_expire = data.get('accessTokenExpire')
                 self._refresh_token_expire = data.get('refreshTokenExpire')
                 return data
-            else:
-                raise aiohttp.ClientResponseError(
-                    request_info=response.request_info,
-                    history=response.history,
-                    status=response.status,
-                    message=f'Login failed: {await response.text()}',
-                    headers=response.headers
-                )
+            raise aiohttp.ClientResponseError(
+                request_info=response.request_info,
+                history=response.history,
+                status=response.status,
+                message=f'Login failed: {await response.text()}',
+                headers=response.headers
+            )
 
     def is_access_token_expired(self) -> bool:
         """Check if access token is expired or close to expiring."""
@@ -141,14 +140,13 @@ class AuthClient:
         async with self._session.request(method, url, **kwargs) as response:
             if response.status == 200:
                 return await response.json()
-            else:
-                raise aiohttp.ClientResponseError(
-                    request_info=response.request_info,
-                    history=response.history,
-                    status=response.status,
-                    message=f'Failed to execute request {response.status} - {await response.text()}',
-                    headers=response.headers
-                )
+            raise aiohttp.ClientResponseError(
+                request_info=response.request_info,
+                history=response.history,
+                status=response.status,
+                message=f'Failed to execute request {response.status} - {await response.text()}',
+                headers=response.headers
+            )
 
     async def close(self):
         """Close the HTTP session."""

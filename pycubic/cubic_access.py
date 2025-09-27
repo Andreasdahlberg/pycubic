@@ -12,6 +12,8 @@ logger = logging.getLogger(__name__)
 
 
 class CubicAccessClient:
+    """Client for interacting with the Cubic Access API endpoints."""
+
     def __init__(self, client: 'AuthClient', serial_number: str) -> None:
         self._client = client
         self._serial_number = serial_number
@@ -20,7 +22,6 @@ class CubicAccessClient:
         """Get the user's structure."""
         endpoint = f'control/cubic/secure/{self._serial_number}/valve'
         return await self._client.request('GET', endpoint)
-
 
     async def open_valve(self) -> dict:
         """Open the valve."""
