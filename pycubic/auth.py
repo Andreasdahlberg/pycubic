@@ -31,8 +31,8 @@ class AuthClient:
     """
 
     def __init__(self, base_url: str):
-        self._base_url = base_url
-        self._session = aiohttp.ClientSession()  # TODO: Set base URL here!
+        self.base_url = base_url
+        self._session = aiohttp.ClientSession(base_url=base_url)
         self._access_token = None
         self._refresh_token = None
         self._access_token_expire = None
@@ -40,7 +40,7 @@ class AuthClient:
 
     async def login(self, email: str, password: str):
         """Authenticate with the LK API and store the tokens."""
-        url = f'{self._base_url}/auth/auth/login'
+        url = '/auth/auth/login'
         payload = {'email': email, 'password': password}
         async with self._session.post(url, json=payload) as response:
             if response.status == 200:
@@ -75,12 +75,11 @@ class AuthClient:
         if not self._access_token:
             return False
 
-        url = f'{self._base_url}/auth/validate/token'
+        url = '/auth/validate/token'
         headers = {'Authorization': f'Bearer {self._access_token}'}
         async with self._session.get(url, headers=headers) as response:
             return response.status == 200
 
-    # TODO: Set check_server to False for testing only!
     async def _ensure_valid_access_token(self, check_server: bool = False):
         """Ensure we have a valid access token, refresh if needed."""
         if self.is_access_token_expired():
@@ -100,7 +99,7 @@ class AuthClient:
         if not self._refresh_token:
             raise ValueError('No refresh token available. Please login first.')
 
-        url = f'{self._base_url}/auth/auth/refresh'
+        url = '/auth/auth/refresh'
         headers = {'Authorization': f'Bearer {self._access_token}'}
         payload = {'refreshToken': self._refresh_token}
         async with self._session.post(url, headers=headers, json=payload) as response:
@@ -135,7 +134,7 @@ class AuthClient:
         headers['Authorization'] = f'Bearer {self._access_token}'
         kwargs['headers'] = headers
 
-        url = f'{self._base_url}/{endpoint.lstrip("/")}'
+        url = f'/{endpoint.lstrip("/")}'
         logger.debug(f'Making request to {url} with method {method}')
         async with self._session.request(method, url, **kwargs) as response:
             if response.status == 200:
